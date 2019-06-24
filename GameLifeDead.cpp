@@ -10,12 +10,16 @@
 HINSTANCE hInst;                                // 現在のインターフェイス
 WCHAR szTitle[MAX_LOADSTRING];                  // タイトル バーのテキスト
 WCHAR szWindowClass[MAX_LOADSTRING];            // メイン ウィンドウ クラス名
+// 自作グローバル変数
+
 
 // このコード モジュールに含まれる関数の宣言を転送します:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+// 前宣言
+
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -123,6 +127,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+
     switch (message)
     {
     case WM_COMMAND:
@@ -137,6 +142,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case IDM_EXIT:
                 DestroyWindow(hWnd);
                 break;
+			case BUTTON1:
+				MessageBox(hWnd, L"ボタン１を押した", L"ボタン１", MB_OK);
+				break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
             }
@@ -162,6 +170,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
 	case WM_CREATE:
 		MessageBox(hWnd,L"WM_CREATEを生成",L"WM_CREATE",MB_OK);
+		HWND hButton1;
+		hButton1 = CreateWindow(TEXT("BUTTON"),
+			TEXT("ボタン"), WS_CHILD | WS_VISIBLE,
+			10, 10, 75, 23, hWnd, (HMENU)BUTTON1, hInst, NULL);
 		break;
 	case WM_NULL:
 		MessageBox(hWnd, L"WM_NULLを生成", L"WM_NULL", MB_OK);
